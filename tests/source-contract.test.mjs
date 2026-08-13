@@ -108,15 +108,21 @@ test("uses native anchors for internal navigation on the vinext runtime", async 
 });
 
 test("renders testimonials with compact round client portraits above the text", async () => {
-  const [page, css] = await Promise.all([
+  const [page, adminPage, css] = await Promise.all([
     readFile(new URL("app/vidhuky/page.tsx", root), "utf8"),
+    readFile(new URL("app/admin/page.tsx", root), "utf8"),
     readFile(new URL("app/globals.css", root), "utf8"),
   ]);
 
   assert.match(page, /className="testimonial-avatar"[^>]*width=\{120\}[^>]*height=\{120\}/);
   assert.match(page, /className="testimonial-person"/);
+  assert.match(adminPage, /getPublicTestimonials\(content\.testimonials\)/);
   assert.match(css, /\.testimonial-avatar\s*\{[^}]*border-radius:\s*50%/s);
   assert.doesNotMatch(css, /\.testimonial-card\s*\{[^}]*100svh/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-card\s*\{[^}]*padding:\s*18px/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-person\s*\{[^}]*margin-bottom:\s*24px/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-avatar\s*\{[^}]*width:\s*80px;[^}]*height:\s*80px/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-card blockquote\s*\{[^}]*font-size:\s*1\.16rem;[^}]*line-height:\s*1\.22/s);
 });
 
 test("ships desktop readability rules", async () => {

@@ -109,26 +109,19 @@ const PROVIDED_TESTIMONIAL = {
   role: "Засновник компанії PILLAR",
   image: "/images/client-testimonial-2026.jpg",
   quote: `Цінність роботи з Тетяною:
-
 • Чесний і прямий зворотний зв'язок щодо моїх дій та результатів.
-
 • Вміння знайти та сформулювати правильні запитання, які допомагають побачити суть проблеми.
-
 • Спільна розробка чітких планів дій для досягнення власних цілей.
-
 • Можливість поглянути на себе та свою ситуацію збоку.
-
 • Корисні, професійні поради щодо бізнес-кейсів, пов'язаних із командою та партнерами.
-
 • Допомога побачити нові можливості там, де власний погляд уже "замилився".`,
 };
 
 export function getPublicTestimonials(items) {
   const normalized = normalizeTestimonials(items);
-  return [
-    ...normalized.filter((item) => item.id !== PROVIDED_TESTIMONIAL.id),
-    PROVIDED_TESTIMONIAL,
-  ];
+  return normalized.some((item) => item.id === PROVIDED_TESTIMONIAL.id)
+    ? normalized
+    : [...normalized, PROVIDED_TESTIMONIAL];
 }
 
 export function resolveAboutImage(src) {
