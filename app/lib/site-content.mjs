@@ -137,6 +137,7 @@ export function resolveHomeImages(images) {
       "/images/tetiana-portrait-2026.jpg",
       "/images/tetiana-speaking.jpg",
       "/images/tetiana-wide.avif",
+      "/images/tetiana-blue-portrait-2026.jpg",
     ].includes(src)),
   };
 }

@@ -343,11 +343,11 @@ main { position: relative; overflow: hidden; }
   .brand small { display: none; }
   .home-hero, .trust-ribbon, .speaker-feature, .practice-gallery, .services-preview, .contact-band, .map-card, .page-hero, .about-layout, .strengths, .services-page, .cta-card, .testimonial-grid, .contact-page { width: calc(100% - 16px); }
   .home-hero { min-height: auto; margin-top: 16px; }
-  .hero-copy { order: 2; min-height: auto; padding: 42px 20px; }
+  .hero-copy { order: 1; min-height: auto; padding: 42px 20px; }
   .hero-copy::before { top: -8%; right: -42%; width: 105%; }
   .hero-copy h1 { font-size: clamp(4rem, 20vw, 6.2rem); }
   .hero-actions { align-items: flex-start; flex-direction: column; }
-  .hero-visual { order: 1; min-height: 480px; }
+  .hero-visual { order: 2; min-height: 480px; }
   .trust-ribbon { grid-template-columns: 1fr; border-radius: 20px; }
   .trust-ribbon article { min-height: 92px; padding: 19px 22px; }
   .trust-ribbon article + article { border-top: 1px solid rgba(184,149,93,.24); border-left: 0; }
