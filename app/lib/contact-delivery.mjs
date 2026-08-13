@@ -19,7 +19,12 @@ export async function deliverContactEmail(input, runtime, fetcher = fetch) {
 
   const response = await fetcher(`https://formsubmit.co/ajax/${RECIPIENT}`, {
     method: "POST",
-    headers: { "content-type": "application/json", accept: "application/json" },
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+      origin: "https://tetiana-korotych-coach.markdrobnyj.chatgpt.site",
+      referer: "https://tetiana-korotych-coach.markdrobnyj.chatgpt.site/kontakty",
+    },
     body: JSON.stringify({
       name: input.name,
       email: input.email,

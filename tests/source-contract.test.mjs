@@ -51,6 +51,16 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
+test("submits activated FormSubmit delivery from the browser before storing the lead", async () => {
+  const [route, form] = await Promise.all([
+    readFile(new URL("app/api/contact/route.ts", root), "utf8"),
+    readFile(new URL("app/components/ContactForm.tsx", root), "utf8"),
+  ]);
+  assert.match(form, /https:\/\/formsubmit\.co\/ajax\/korotanya@yahoo\.com/);
+  assert.match(form, /deliveryConfirmed:\s*"formsubmit"/);
+  assert.match(route, /input\.deliveryConfirmed === "formsubmit"/);
+});
+
 test("uses the text TK brand and a responsive three-photo gallery", async () => {
   const [page, header, layout, css] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),

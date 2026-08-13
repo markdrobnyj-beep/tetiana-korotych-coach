@@ -31,3 +31,17 @@ test("accepts delivery only when the provider confirms success", async () => {
   const fetcher = async () => Response.json({ success: "true", message: "Email sent" });
   await deliverContactEmail(lead, {}, fetcher);
 });
+
+test("identifies the live website to the keyless provider", async () => {
+  let request;
+  const fetcher = async (url, options) => {
+    request = { url, options };
+    return Response.json({ success: "true", message: "Email sent" });
+  };
+
+  await deliverContactEmail(lead, {}, fetcher);
+
+  assert.equal(request.url, "https://formsubmit.co/ajax/korotanya@yahoo.com");
+  assert.equal(request.options.headers.origin, "https://tetiana-korotych-coach.markdrobnyj.chatgpt.site");
+  assert.equal(request.options.headers.referer, "https://tetiana-korotych-coach.markdrobnyj.chatgpt.site/kontakty");
+});
