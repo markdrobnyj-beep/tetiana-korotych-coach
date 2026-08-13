@@ -42,13 +42,13 @@ test("replaces the legacy wide about photo without overriding admin uploads", ()
   assert.equal(resolveAboutImage("/api/media/custom-photo"), "/api/media/custom-photo");
 });
 
-test("keeps exactly three public gallery photos and preserves later admin uploads", () => {
+test("keeps the blue-suit hero portrait out of the public gallery", () => {
   const legacy = resolveHomeImages({
     hero: "/images/tetiana-wide.avif",
     gallery: ["/images/tetiana-portrait-2026.jpg", "/images/tetiana-speaking.jpg", "/images/tetiana-blue-portrait-2026.jpg"],
   });
   assert.equal(legacy.hero, "/images/tetiana-blue-portrait-2026.jpg");
-  assert.deepEqual(legacy.gallery, ["/images/tetiana-blue-portrait-2026.jpg"]);
+  assert.deepEqual(legacy.gallery, []);
 
   const custom = resolveHomeImages({ hero: "/api/media/new-hero", gallery: ["/api/media/new-gallery"] });
   assert.equal(custom.hero, "/api/media/new-hero");

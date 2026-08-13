@@ -36,6 +36,8 @@ test("declares durable database and media bindings", async () => {
 test("ships mobile and reduced-motion rules", async () => {
   const css = await readFile(new URL("app/globals.css", root), "utf8");
   assert.match(css, /@media \(max-width: 720px\)/);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.hero-copy\s*\{[^}]*order:\s*1/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.hero-visual\s*\{[^}]*order:\s*2/s);
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /--teal:\s*#103738/i);
 });
