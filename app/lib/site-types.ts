@@ -6,5 +6,4 @@ export type SiteContent = {
   about: { title: string; lead: string; paragraphs: string[]; mission: string; strengths: string[] };
   services: Service[];
   testimonials: Testimonial[];
-  questions: string[];
 };

@@ -28,7 +28,15 @@ export async function deliverContactEmail(input, runtime, fetcher = fetch) {
       _subject: subject,
       _template: "table",
       _captcha: "false",
+      _url: "https://tetianakorotych.coach/kontakty",
     }),
   });
   if (!response.ok) throw new Error("Не вдалося доставити повідомлення електронною поштою.");
+  const result = await response.json().catch(() => null);
+  if (String(result?.success).toLowerCase() !== "true") {
+    const activationNeeded = /activation/i.test(String(result?.message || ""));
+    throw new Error(activationNeeded
+      ? "Поштова форма очікує активації власницею сайту."
+      : "Поштовий сервіс не підтвердив доставку повідомлення.");
+  }
 }

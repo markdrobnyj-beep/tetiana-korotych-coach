@@ -9,7 +9,6 @@ const REVEAL_SELECTOR = [
   ".section-heading > *",
   ".speaker-feature > *",
   ".gallery-item",
-  ".question-card",
   ".service-card",
   ".service-detail",
   ".about-layout > *",

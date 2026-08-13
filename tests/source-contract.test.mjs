@@ -51,7 +51,7 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
-test("uses the requested copy, logo, domain, and responsive three-photo desktop collage", async () => {
+test("uses an uncropped logo and a responsive three-photo gallery", async () => {
   const [page, header, layout, css] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/components/SiteHeader.tsx", root), "utf8"),
@@ -63,9 +63,23 @@ test("uses the requested copy, logo, domain, and responsive three-photo desktop 
   assert.match(page, /стратегічні сесії/);
   assert.match(header, /tetiana-korotych-logo\.jpg/);
   assert.match(layout, /tetianakorotych\.coach/);
-  assert.match(css, /\.gallery-item--desktop-hidden\s*\{\s*display:\s*none/);
-  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.gallery-item--desktop-hidden\s*\{\s*display:\s*block/);
+  assert.doesNotMatch(page, /QuestionCards|gallery-item--desktop-hidden/);
+  assert.match(css, /\.brand img\s*\{[^}]*object-fit:\s*cover;[^}]*object-position:\s*center 60%;[^}]*transform:\s*none/s);
+  assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*contain/s);
+  assert.match(page, /style=\{\{ objectFit: "contain" \}\}/);
+  assert.doesNotMatch(css, /\.gallery-item:hover img\s*\{[^}]*scale/);
   assert.doesNotMatch(css, /overflow-x:\s*auto|scroll-snap-type/);
+});
+
+test("removes the questions section and all exclusive styles", async () => {
+  const [page, css, motion] = await Promise.all([
+    readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+    readFile(new URL("app/components/MotionController.tsx", root), "utf8"),
+  ]);
+  assert.doesNotMatch(page, /З чого почнемо|QuestionCards/);
+  assert.doesNotMatch(css, /question-section|question-grid|question-card/);
+  assert.doesNotMatch(motion, /question-card/);
 });
 
 test("uses native anchors for internal navigation on the vinext runtime", async () => {
@@ -155,11 +169,4 @@ test("resets restored scroll and reveals content progressively", async () => {
   assert.match(motion, /history\.scrollRestoration = "manual"/);
   assert.match(motion, /window\.scrollTo\(0, 0\)/);
   assert.match(motion, /IntersectionObserver/);
-});
-
-test("makes every home question a service link without decorative numbering", async () => {
-  const cards = await readFile(new URL("app/components/QuestionCards.tsx", root), "utf8");
-  assert.match(cards, /<a[^>]*className="question-card"[^>]*href="\/posluhy"/);
-  assert.doesNotMatch(cards, /0\{index \+ 1\}/);
-  assert.match(cards, /question-card-action/);
 });

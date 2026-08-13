@@ -31,7 +31,7 @@ test("includes strategic sessions in services", () => {
   );
 });
 
-test("provides five source photos so the public mobile gallery keeps four after the about portrait is removed", () => {
+test("keeps source photos available while the public gallery resolver selects three", () => {
   assert.equal(DEFAULT_CONTENT.images.gallery.length, 5);
   assert.ok(DEFAULT_CONTENT.images.gallery.every((src) => src.startsWith("/images/")));
   assert.ok(!DEFAULT_CONTENT.images.gallery.includes("/images/tetiana-wide.avif"));
@@ -42,13 +42,13 @@ test("replaces the legacy wide about photo without overriding admin uploads", ()
   assert.equal(resolveAboutImage("/api/media/custom-photo"), "/api/media/custom-photo");
 });
 
-test("removes only the about portrait from the home gallery and preserves later admin uploads", () => {
+test("keeps exactly three public gallery photos and preserves later admin uploads", () => {
   const legacy = resolveHomeImages({
     hero: "/images/tetiana-wide.avif",
     gallery: ["/images/tetiana-portrait-2026.jpg", "/images/tetiana-speaking.jpg", "/images/tetiana-blue-portrait-2026.jpg"],
   });
   assert.equal(legacy.hero, "/images/tetiana-blue-portrait-2026.jpg");
-  assert.deepEqual(legacy.gallery, ["/images/tetiana-speaking.jpg", "/images/tetiana-blue-portrait-2026.jpg"]);
+  assert.deepEqual(legacy.gallery, ["/images/tetiana-blue-portrait-2026.jpg"]);
 
   const custom = resolveHomeImages({ hero: "/api/media/new-hero", gallery: ["/api/media/new-gallery"] });
   assert.equal(custom.hero, "/api/media/new-hero");
@@ -59,8 +59,12 @@ test("always includes the provided client testimonial once", () => {
   const testimonials = getPublicTestimonials([]);
   assert.equal(testimonials.length, 1);
   assert.equal(testimonials[0].image, "/images/client-testimonial-2026.jpg");
+  assert.equal(testimonials[0].name, "Олександр Гостєв");
+  assert.equal(testimonials[0].role, "засновник компанії PILLAR");
   assert.match(testimonials[0].quote, /Прямий зворотній звʼязок/);
   assert.equal(getPublicTestimonials(testimonials).length, 1);
+  const stale = [{ ...testimonials[0], name: "Клієнт Тетяни", role: "Відгук про коучинг" }];
+  assert.equal(getPublicTestimonials(stale)[0].name, "Олександр Гостєв");
 });
 
 test("upgrades the saved Instagram profile link without replacing a custom profile", () => {

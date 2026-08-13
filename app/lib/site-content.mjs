@@ -97,11 +97,6 @@ export const DEFAULT_CONTENT = {
       quote: "Таня м’якою рукою провела шляхом дослідження і створила простір, у якому мозок сам генерує те, чого раніше ніяк не міг. Я отримав бачення, відчуття легкості, фокус і мотивацію діяти.",
     },
   ],
-  questions: [
-    "Що зміниться, якщо дозволити собі більше?",
-    "Яке рішення поверне вам відчуття опори?",
-    "Що вже зараз працює на вашу мету?",
-  ],
 };
 
 export function normalizeTestimonials(items) {
@@ -110,17 +105,18 @@ export function normalizeTestimonials(items) {
 
 const PROVIDED_TESTIMONIAL = {
   id: "client-business-feedback-2026",
-  name: "Клієнт Тетяни",
-  role: "Відгук про коучинг",
+  name: "Олександр Гостєв",
+  role: "засновник компанії PILLAR",
   image: "/images/client-testimonial-2026.jpg",
   quote: "Доброго ранку! В чому цінність роботи з Вами: ❇️ Прямий зворотній звʼязок відносно власних дій та результатів. ❇️ Знайти та зформулювати правильні запитання. ❇️ Спільна розробка планів дій для досягнення власних цілей. ❇️ Побачити себе та власну ситуацію з іншого боку, без оцінок тільки факти. ❇️ Корисні, професійні поради відносно бізнес-кейсів з командою та партнерами. ❇️ Побачити додаткові можливості, де можливо вже є замилене око.",
 };
 
 export function getPublicTestimonials(items) {
   const normalized = normalizeTestimonials(items);
-  return normalized.some((item) => item.id === PROVIDED_TESTIMONIAL.id)
-    ? normalized
-    : [...normalized, PROVIDED_TESTIMONIAL];
+  return [
+    ...normalized.filter((item) => item.id !== PROVIDED_TESTIMONIAL.id),
+    PROVIDED_TESTIMONIAL,
+  ];
 }
 
 export function resolveAboutImage(src) {
@@ -134,6 +130,7 @@ export function resolveHomeImages(images) {
     hero: images.hero === "/images/tetiana-wide.avif" ? "/images/tetiana-blue-portrait-2026.jpg" : images.hero,
     gallery: (images.gallery || []).filter((src) => ![
       "/images/tetiana-portrait-2026.jpg",
+      "/images/tetiana-speaking.jpg",
       "/images/tetiana-wide.avif",
     ].includes(src)),
   };
