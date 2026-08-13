@@ -40,6 +40,12 @@ test("ships mobile and reduced-motion rules", async () => {
   assert.match(css, /--teal:\s*#103738/i);
 });
 
+test("keeps the header logo compact at desktop and mobile widths", async () => {
+  const css = await readFile(new URL("app/globals.css", root), "utf8");
+  assert.match(css, /\.brand\s*\{[^}]*width:\s*168px;[^}]*height:\s*46px/s);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.brand\s*\{[^}]*width:\s*128px;[^}]*height:\s*36px/s);
+});
+
 test("contact endpoint reports delivery failures instead of false success", async () => {
   const [route, form] = await Promise.all([
     readFile(new URL("app/api/contact/route.ts", root), "utf8"),
