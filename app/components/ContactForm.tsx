@@ -10,10 +10,31 @@ export function ContactForm() {
     setSending(true); setStatus("");
     const form = event.currentTarget;
     try {
-      const response = await fetch("/api/contact", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-      const result = await response.json() as { message: string };
-      setStatus(result.message);
-      if (response.ok) form.reset();
+      const payload = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (payload.website) throw new Error("Spam rejected");
+      const delivery = await fetch("https://formsubmit.co/ajax/korotanya@yahoo.com", {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone || "",
+          message: payload.message,
+          _subject: `Нова заявка: ${payload.subject || "коучинг"}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      const deliveryResult = await delivery.json().catch(() => null) as { success?: string | boolean } | null;
+      if (!delivery.ok || String(deliveryResult?.success).toLowerCase() !== "true") throw new Error("Email delivery rejected");
+
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...payload, deliveryConfirmed: "formsubmit" }),
+      }).catch(() => null);
+      setStatus("Дякую! Ваше повідомлення надіслано.");
+      form.reset();
     } catch {
       setStatus("Не вдалося надіслати повідомлення. Спробуйте ще раз або напишіть на email.");
     } finally {

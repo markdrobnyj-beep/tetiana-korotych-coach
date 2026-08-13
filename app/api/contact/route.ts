@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   const result = validateLead(input);
   if (!result.ok) return Response.json(result, { status: 400 });
   await saveLead({ name: input.name, email: input.email, phone: input.phone, subject: input.subject, message: input.message });
+  if (input.deliveryConfirmed === "formsubmit") return Response.json(result);
   try {
     await deliverContactEmail(input, env as unknown as { RESEND_API_KEY?: string; RESEND_FROM?: string });
   } catch (error) {
