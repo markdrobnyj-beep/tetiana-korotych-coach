@@ -57,11 +57,25 @@ test("keeps exactly three public gallery photos and preserves later admin upload
 
 test("always includes the provided client testimonial once", () => {
   const testimonials = getPublicTestimonials([]);
+  const expectedQuote = `Цінність роботи з Тетяною:
+
+• Чесний і прямий зворотний зв'язок щодо моїх дій та результатів.
+
+• Вміння знайти та сформулювати правильні запитання, які допомагають побачити суть проблеми.
+
+• Спільна розробка чітких планів дій для досягнення власних цілей.
+
+• Можливість поглянути на себе та свою ситуацію збоку.
+
+• Корисні, професійні поради щодо бізнес-кейсів, пов'язаних із командою та партнерами.
+
+• Допомога побачити нові можливості там, де власний погляд уже "замилився".`;
   assert.equal(testimonials.length, 1);
   assert.equal(testimonials[0].image, "/images/client-testimonial-2026.jpg");
   assert.equal(testimonials[0].name, "Олександр Гостєв");
-  assert.equal(testimonials[0].role, "засновник компанії PILLAR");
-  assert.match(testimonials[0].quote, /Прямий зворотній звʼязок/);
+  assert.equal(testimonials[0].role, "Засновник компанії PILLAR");
+  assert.equal(testimonials[0].quote, expectedQuote);
+  assert.equal(testimonials[0].quote.match(/^• /gm)?.length, 6);
   assert.equal(getPublicTestimonials(testimonials).length, 1);
   const stale = [{ ...testimonials[0], name: "Клієнт Тетяни", role: "Відгук про коучинг" }];
   assert.equal(getPublicTestimonials(stale)[0].name, "Олександр Гостєв");

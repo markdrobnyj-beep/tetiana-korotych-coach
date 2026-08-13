@@ -51,7 +51,7 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
-test("uses an uncropped logo and a responsive three-photo gallery", async () => {
+test("uses the text TK brand and a responsive three-photo gallery", async () => {
   const [page, header, layout, css] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/components/SiteHeader.tsx", root), "utf8"),
@@ -61,10 +61,13 @@ test("uses an uncropped logo and a responsive three-photo gallery", async () => 
   assert.match(page, /управлінні персоналом/);
   assert.match(page, /індивідуально та з командами/);
   assert.match(page, /стратегічні сесії/);
-  assert.match(header, /tetiana-korotych-logo\.jpg/);
+  assert.match(header, /<span>TK<\/span><small>PCC · ICF<\/small>/);
+  assert.doesNotMatch(header, /next\/image|tetiana-korotych-logo\.jpg/);
   assert.match(layout, /tetianakorotych\.coach/);
   assert.doesNotMatch(page, /QuestionCards|gallery-item--desktop-hidden/);
-  assert.match(css, /\.brand img\s*\{[^}]*object-fit:\s*cover;[^}]*object-position:\s*center 60%;[^}]*transform:\s*none/s);
+  assert.match(css, /\.brand span\s*\{[^}]*border-radius:\s*50%/s);
+  assert.match(css, /\.brand small\s*\{[^}]*letter-spacing:/s);
+  assert.match(css, /\.testimonial-card blockquote\s*\{[^}]*white-space:\s*pre-line/s);
   assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*contain/s);
   assert.match(page, /style=\{\{ objectFit: "contain" \}\}/);
   assert.doesNotMatch(css, /\.gallery-item:hover img\s*\{[^}]*scale/);
