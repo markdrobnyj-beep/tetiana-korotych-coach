@@ -63,7 +63,7 @@ test("submits activated FormSubmit delivery from the browser before storing the 
   assert.match(route, /input\.deliveryConfirmed === "formsubmit"/);
 });
 
-test("uses the text TK brand and a responsive three-photo gallery", async () => {
+test("uses the supplied square logo and a responsive three-photo gallery", async () => {
   const [page, header, layout, css] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/components/SiteHeader.tsx", root), "utf8"),
@@ -73,11 +73,11 @@ test("uses the text TK brand and a responsive three-photo gallery", async () => 
   assert.match(page, /управлінні персоналом/);
   assert.match(page, /індивідуально та з командами/);
   assert.match(page, /стратегічні сесії/);
-  assert.match(header, /<span>TK<\/span><small>PCC · ICF<\/small>/);
-  assert.doesNotMatch(header, /next\/image|tetiana-korotych-logo\.jpg/);
+  assert.match(header, /<img className="brand-logo" src="\/images\/tetiana-korotych-logo\.jpg" alt="[^"]+" width=\{42\} height=\{42\} \/>/);
+  assert.doesNotMatch(header, /<span>TK<\/span>/);
   assert.match(layout, /tetianakorotych\.coach/);
   assert.doesNotMatch(page, /QuestionCards|gallery-item--desktop-hidden/);
-  assert.match(css, /\.brand span\s*\{[^}]*border-radius:\s*50%/s);
+  assert.match(css, /\.brand-logo\s*\{[^}]*width:\s*42px;[^}]*height:\s*42px;[^}]*object-fit:\s*cover;[^}]*border-radius:\s*12px/s);
   assert.match(css, /\.brand small\s*\{[^}]*letter-spacing:/s);
   assert.match(css, /\.testimonial-card blockquote\s*\{[^}]*white-space:\s*pre-line/s);
   assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*contain/s);

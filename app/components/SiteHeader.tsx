@@ -4,7 +4,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <a href="/" className="brand" aria-label="Тетяна Коротич — головна">
-        <span>TK</span><small>PCC · ICF</small>
+        <img className="brand-logo" src="/images/tetiana-korotych-logo.jpg" alt="Тетяна Коротич" width={42} height={42} /><small>PCC · ICF</small>
       </a>
       <nav className="desktop-nav" aria-label="Основна навігація">
         {NAV_ITEMS.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
