@@ -109,6 +109,12 @@ test("uses native anchors for internal navigation on the vinext runtime", async 
   assert.doesNotMatch(files.join("\n"), /from ["']next\/link["']/);
 });
 
+test("keeps the admin route out of the public footer", async () => {
+  const footer = await readFile(new URL("app/components/SiteFooter.tsx", root), "utf8");
+  assert.doesNotMatch(footer, /href=["']\/admin["']/);
+  assert.doesNotMatch(footer, /Керування сайтом/);
+});
+
 test("renders testimonials with compact round client portraits above the text", async () => {
   const [page, adminPage, css] = await Promise.all([
     readFile(new URL("app/vidhuky/page.tsx", root), "utf8"),
