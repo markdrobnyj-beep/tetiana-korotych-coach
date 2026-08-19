@@ -11,7 +11,7 @@ export function SiteFooter() {
         <a href={settings.facebook} target="_blank" rel="noreferrer">Facebook ↗</a>
         <a href={settings.telegram} target="_blank" rel="noreferrer">Telegram ↗</a>
       </div>
-      <div className="footer-bottom"><span>© {new Date().getFullYear()} Tetiana Korotych</span><a href="/admin">Керування сайтом</a></div>
+      <div className="footer-bottom"><span>© {new Date().getFullYear()} Tetiana Korotych</span></div>
     </footer>
   );
 }
