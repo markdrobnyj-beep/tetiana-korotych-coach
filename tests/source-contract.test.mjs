@@ -53,6 +53,18 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
+test("offers inline booking below the home contact form", async () => {
+  const [page, css] = await Promise.all([
+    readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+  ]);
+
+  assert.match(page, /import \{ CalendlyInline \} from "\.\/components\/CalendlyInline"/);
+  assert.match(page, /<ContactForm \/>\s*<CalendlyInline \/>/);
+  assert.match(css, /\.calendly-widget-shell\s*\{/);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.calendly-inline-widget\s*\{[^}]*height:\s*880px/s);
+});
+
 test("submits activated FormSubmit delivery from the browser before storing the lead", async () => {
   const [route, form] = await Promise.all([
     readFile(new URL("app/api/contact/route.ts", root), "utf8"),
