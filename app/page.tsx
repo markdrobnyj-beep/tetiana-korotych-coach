@@ -29,7 +29,7 @@ export default async function Home() {
     <section className="practice-gallery" aria-labelledby="gallery-title">
       <div className="section-heading"><p className="eyebrow">У роботі</p><h2 id="gallery-title">Коучинг, тренінги, стратегічні сесії.</h2></div>
       <div className="gallery-grid">
-        {gallery.map((src) => <figure className="gallery-item" key={src}><Image src={src} alt="Тетяна Коротич під час тренінгу" fill sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 66vw" style={{ objectFit: "contain" }} /></figure>)}
+        {gallery.map((src) => <figure className="gallery-item" key={src}><Image src={src} alt="Тетяна Коротич під час тренінгу" fill sizes="(max-width: 720px) 100vw, 50vw" /></figure>)}
       </div>
     </section>
     <section className="services-preview"><div className="section-heading"><p className="eyebrow">Напрями роботи</p><h2>Від ясності — до дії</h2></div><div className="service-grid">{content.services.map((service) => <article className="service-card" key={service.id}><span className="service-card-mark" aria-hidden="true">✦</span><h3>{service.title}</h3><p>{service.description}</p><a href="/posluhy">Детальніше ↗</a></article>)}</div></section>

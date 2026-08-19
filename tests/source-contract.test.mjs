@@ -63,7 +63,7 @@ test("submits activated FormSubmit delivery from the browser before storing the 
   assert.match(route, /input\.deliveryConfirmed === "formsubmit"/);
 });
 
-test("uses the supplied square logo and a responsive three-photo gallery", async () => {
+test("uses the supplied square logo and equal-size desktop gallery photos", async () => {
   const [page, header, layout, css] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/components/SiteHeader.tsx", root), "utf8"),
@@ -80,8 +80,10 @@ test("uses the supplied square logo and a responsive three-photo gallery", async
   assert.match(css, /\.brand-logo\s*\{[^}]*width:\s*42px;[^}]*height:\s*42px;[^}]*object-fit:\s*cover;[^}]*border-radius:\s*12px/s);
   assert.match(css, /\.brand small\s*\{[^}]*letter-spacing:/s);
   assert.match(css, /\.testimonial-card blockquote\s*\{[^}]*white-space:\s*pre-line/s);
-  assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*contain/s);
-  assert.match(page, /style=\{\{ objectFit: "contain" \}\}/);
+  assert.match(css, /\.gallery-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+  assert.match(css, /\.gallery-item\s*\{[^}]*aspect-ratio:\s*3\s*\/\s*2/s);
+  assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*cover/s);
+  assert.doesNotMatch(css, /\.gallery-item:nth-child\(1\)\s*\{[^}]*grid-row:\s*1\s*\/\s*3/s);
   assert.doesNotMatch(css, /\.gallery-item:hover img\s*\{[^}]*scale/);
   assert.doesNotMatch(css, /overflow-x:\s*auto|scroll-snap-type/);
 });
