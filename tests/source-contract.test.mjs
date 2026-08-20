@@ -70,6 +70,8 @@ test("shares the refined Calendly booking block between home and contacts", asyn
   assert.match(calendly, /window\.addEventListener\("message"/);
   assert.match(calendly, /e\.data\.event === "calendly\.page_height"/);
   assert.match(calendly, /widget\.style\.height = e\.data\.payload\.height \+ "px"/);
+  assert.match(css, /\.contact-band\s*\{[^}]*background:\s*#0e3a30/s);
+  assert.match(css, /\.contact-page\s*\{[^}]*background:\s*#0e3a30/s);
   assert.doesNotMatch(calendly, /calendly-widget-shell|height:\s*"700px"/);
   assert.doesNotMatch(css, /\.calendly-widget-shell\s*\{/);
   assert.doesNotMatch(css, /\.calendly-inline-widget\s*\{[^}]*height:/s);
