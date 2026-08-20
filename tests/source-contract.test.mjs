@@ -53,6 +53,28 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
+test("shares the refined Calendly booking block between home and contacts", async () => {
+  const [home, contacts, css, calendly] = await Promise.all([
+    readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/kontakty/page.tsx", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+    readFile(new URL("app/components/CalendlyInline.tsx", root), "utf8"),
+  ]);
+
+  for (const page of [home, contacts]) {
+    assert.match(page, /import \{ CalendlyInline \}/);
+    assert.match(page, /<ContactForm \/>\s*<CalendlyInline \/>/);
+  }
+  assert.match(calendly, /background_color=0e3a30/);
+  assert.match(calendly, /data-resize="true"/);
+  assert.match(calendly, /window\.addEventListener\("message"/);
+  assert.match(calendly, /e\.data\.event === "calendly\.page_height"/);
+  assert.match(calendly, /widget\.style\.height = e\.data\.payload\.height \+ "px"/);
+  assert.doesNotMatch(calendly, /calendly-widget-shell|height:\s*"700px"/);
+  assert.doesNotMatch(css, /\.calendly-widget-shell\s*\{/);
+  assert.doesNotMatch(css, /\.calendly-inline-widget\s*\{[^}]*height:/s);
+});
+
 test("submits activated FormSubmit delivery from the browser before storing the lead", async () => {
   const [route, form] = await Promise.all([
     readFile(new URL("app/api/contact/route.ts", root), "utf8"),
