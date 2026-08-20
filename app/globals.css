@@ -81,12 +81,9 @@ main { position: relative; overflow: hidden; }
 .speaker-caption > p:last-child { line-height: 1.6; }
 
 .practice-gallery { width: min(1280px, calc(100% - 32px)); margin: 0 auto; padding: 80px 0 50px; }
-.gallery-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 12px; aspect-ratio: 16 / 9; }
-.gallery-item { position: relative; min-width: 0; margin: 0; overflow: hidden; border-radius: 28px; background: var(--graphite); }
+.gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.gallery-item { position: relative; min-width: 0; margin: 0; overflow: hidden; aspect-ratio: 3 / 2; border-radius: 28px; background: var(--graphite); }
 .gallery-item img { object-fit: contain; }
-.gallery-item:nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
-.gallery-item:nth-child(2) { grid-column: 2; grid-row: 1; }
-.gallery-item:nth-child(3) { grid-column: 2; grid-row: 2; }
 
 .services-preview, .strengths { width: min(1280px, calc(100% - 32px)); margin: 0 auto; padding: 110px 0; }
 .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 44px; }

@@ -106,6 +106,8 @@ test("uses the text TK brand and a responsive three-photo gallery", async () => 
   assert.match(css, /\.testimonial-card blockquote\s*\{[^}]*white-space:\s*pre-line/s);
   assert.match(css, /\.gallery-item img\s*\{[^}]*object-fit:\s*contain/s);
   assert.match(page, /style=\{\{ objectFit: "contain" \}\}/);
+  assert.match(css, /\.gallery-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+  assert.doesNotMatch(css, /\.gallery-item:nth-child\(1\)\s*\{[^}]*grid-row:\s*1\s*\/\s*3/s);
   assert.doesNotMatch(css, /\.gallery-item:hover img\s*\{[^}]*scale/);
   assert.doesNotMatch(css, /overflow-x:\s*auto|scroll-snap-type/);
 });
