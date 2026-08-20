@@ -103,25 +103,50 @@ export function normalizeTestimonials(items) {
   return Array.isArray(items) ? items.filter((item) => item?.name && item?.quote) : [];
 }
 
-const PROVIDED_TESTIMONIAL = {
-  id: "client-business-feedback-2026",
-  name: "Олександр Гостєв",
-  role: "Засновник компанії PILLAR",
-  image: "/images/client-testimonial-2026.jpg",
-  quote: `Цінність роботи з Тетяною:
+const PROVIDED_TESTIMONIALS = [
+  {
+    id: "client-business-feedback-2026",
+    name: "Олександр Гостєв",
+    role: "Засновник компанії PILLAR",
+    image: "/images/client-testimonial-2026.jpg",
+    quote: `Цінність роботи з Тетяною:
 • Чесний і прямий зворотний зв'язок щодо моїх дій та результатів.
 • Вміння знайти та сформулювати правильні запитання, які допомагають побачити суть проблеми.
 • Спільна розробка чітких планів дій для досягнення власних цілей.
 • Можливість поглянути на себе та свою ситуацію збоку.
 • Корисні, професійні поради щодо бізнес-кейсів, пов'язаних із командою та партнерами.
 • Допомога побачити нові можливості там, де власний погляд уже "замилився".`,
-};
+  },
+  {
+    id: "maryna-koval-2026",
+    name: "Марина Коваль",
+    role: "Software Architect",
+    image: "/images/maryna-koval.jpg",
+    quote: `До коучингу я прийшла в дуже розбитому стані — фрустрація, втома, незрозуміло, куди рухатись далі.
+
+Запит був конкретний:
+• зрозуміти, в якому професійному напрямку рухатись;
+• навчитись приймати рішення, щоб вийти з фрустрації;
+• усвідомити свій потенціал і навчитись ним користуватись;
+• зрозуміти, чого я насправді хочу.
+
+Після 6 сесій:
+• З'явилось чітке розуміння, на якій позиції я хочу працювати — і я перейшла в нову команду;
+• Навчилась приймати рішення за зрозумілими критеріями, а головне — керувати своїм фокусом уваги і, відповідно, своїм станом;
+• Усвідомила свої сильні сторони;
+• Розібралась із причинами прокрастинації, і моя ефективність суттєво зросла;
+• І, мабуть, найголовніше — повернула радість у своє життя.
+
+Працювати з коучем — це найкраща інвестиція в себе.`,
+  },
+];
 
 export function getPublicTestimonials(items) {
   const normalized = normalizeTestimonials(items);
-  return normalized.some((item) => item.id === PROVIDED_TESTIMONIAL.id)
-    ? normalized
-    : [...normalized, PROVIDED_TESTIMONIAL];
+  return PROVIDED_TESTIMONIALS.reduce(
+    (testimonials, item) => testimonials.some((testimonial) => testimonial.id === item.id) ? testimonials : [...testimonials, item],
+    normalized,
+  );
 }
 
 export function resolveAboutImage(src) {

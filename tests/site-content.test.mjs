@@ -64,15 +64,21 @@ test("always includes the provided client testimonial once", () => {
 • Можливість поглянути на себе та свою ситуацію збоку.
 • Корисні, професійні поради щодо бізнес-кейсів, пов'язаних із командою та партнерами.
 • Допомога побачити нові можливості там, де власний погляд уже "замилився".`;
-  assert.equal(testimonials.length, 1);
+  assert.equal(testimonials.length, 2);
   assert.equal(testimonials[0].image, "/images/client-testimonial-2026.jpg");
   assert.equal(testimonials[0].name, "Олександр Гостєв");
   assert.equal(testimonials[0].role, "Засновник компанії PILLAR");
   assert.equal(testimonials[0].quote, expectedQuote);
   assert.equal(testimonials[0].quote.match(/^• /gm)?.length, 6);
-  assert.equal(getPublicTestimonials(testimonials).length, 1);
+  assert.equal(testimonials[1].image, "/images/maryna-koval.jpg");
+  assert.equal(testimonials[1].name, "Марина Коваль");
+  assert.equal(testimonials[1].role, "Software Architect");
+  assert.match(testimonials[1].quote, /Після 6 сесій:/);
+  assert.match(testimonials[1].quote, /повернула радість у своє життя/);
+  assert.equal(getPublicTestimonials(testimonials).length, 2);
   const edited = { ...testimonials[0], name: "Олександр Гостєв (ред.)", role: "Оновлена посада", quote: "Оновлений текст" };
-  assert.deepEqual(getPublicTestimonials([edited]), [edited]);
+  assert.equal(getPublicTestimonials([edited]).length, 2);
+  assert.equal(getPublicTestimonials([edited])[0].name, "Олександр Гостєв (ред.)");
 });
 
 test("upgrades the saved Instagram profile link without replacing a custom profile", () => {
