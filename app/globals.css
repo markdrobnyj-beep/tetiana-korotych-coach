@@ -153,8 +153,8 @@ main { position: relative; overflow: hidden; }
 .cta-card { width: min(1280px, calc(100% - 32px)); margin: 0 auto 120px; padding: clamp(30px, 7vw, 90px); border-radius: 32px; background: var(--graphite); color: var(--white); }
 .cta-card h2 { max-width: 850px; margin: 0 0 46px; font-size: clamp(3rem, 7vw, 7rem); letter-spacing: -.06em; line-height: .92; font-weight: 430; }
 
-.testimonial-grid { width: min(1280px, calc(100% - 32px)); margin: 0 auto 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.testimonial-card { min-height: 520px; padding: clamp(28px, 4vw, 46px); display: flex; flex-direction: column; border-radius: 30px; background: var(--teal); color: white; }
+.testimonial-grid { width: min(1280px, calc(100% - 32px)); margin: 0 auto 120px; display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 12px; }
+.testimonial-card { padding: clamp(28px, 4vw, 46px); display: flex; flex-direction: column; border-radius: 30px; background: var(--teal); color: white; }
 .testimonial-card:nth-child(4n+2), .testimonial-card:nth-child(4n+3) { background: var(--sage); color: var(--graphite); }
 .testimonial-person { display: grid; justify-items: start; gap: 16px; margin-bottom: 54px; }
 .testimonial-avatar { width: 120px; height: 120px; object-fit: cover; border: 3px solid rgba(255,255,255,.72); border-radius: 50%; }
