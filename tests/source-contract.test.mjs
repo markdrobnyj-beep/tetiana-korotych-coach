@@ -149,7 +149,7 @@ test("renders testimonials with compact round client portraits above the text", 
   assert.doesNotMatch(css, /\.testimonial-card\s*\{[^}]*100svh/s);
   assert.doesNotMatch(css, /\.testimonial-card\s*\{[^}]*min-height:\s*520px/s);
   assert.match(page, /className=\{item\.id === "maryna-koval-2026" \? "testimonial-quote testimonial-quote-compact" : "testimonial-quote"\}/);
-  assert.match(css, /\.testimonial-quote-compact\s*\{[^}]*font-size:\s*clamp\(1\.05rem, 1\.55vw, 1\.55rem\)/s);
+  assert.match(css, /\.testimonial-card \.testimonial-quote-compact\s*\{[^}]*font-size:\s*clamp\(1\.05rem, 1\.55vw, 1\.55rem\)/s);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-card\s*\{[^}]*padding:\s*18px/s);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-person\s*\{[^}]*margin-bottom:\s*24px/s);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.testimonial-avatar\s*\{[^}]*width:\s*80px;[^}]*height:\s*80px/s);
