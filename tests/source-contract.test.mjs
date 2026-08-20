@@ -53,16 +53,24 @@ test("contact endpoint reports delivery failures instead of false success", asyn
   assert.match(form, /finally/);
 });
 
-test("offers inline booking below the home contact form", async () => {
-  const [page, css] = await Promise.all([
+test("embeds Calendly directly on the contact card and resizes it to content", async () => {
+  const [page, css, calendly] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/globals.css", root), "utf8"),
+    readFile(new URL("app/components/CalendlyInline.tsx", root), "utf8"),
   ]);
 
   assert.match(page, /import \{ CalendlyInline \} from "\.\/components\/CalendlyInline"/);
   assert.match(page, /<ContactForm \/>\s*<CalendlyInline \/>/);
-  assert.match(css, /\.calendly-widget-shell\s*\{/);
-  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.calendly-inline-widget\s*\{[^}]*height:\s*880px/s);
+  assert.match(calendly, /background_color=0e3a30/);
+  assert.match(calendly, /data-resize="true"/);
+  assert.match(css, /\.contact-band\s*\{[^}]*background:\s*#0e3a30/s);
+  assert.match(calendly, /window\.addEventListener\("message"/);
+  assert.match(calendly, /e\.data\.event === "calendly\.page_height"/);
+  assert.match(calendly, /widget\.style\.height = e\.data\.payload\.height \+ "px"/);
+  assert.doesNotMatch(calendly, /calendly-widget-shell|height:\s*"700px"/);
+  assert.doesNotMatch(css, /\.calendly-widget-shell\s*\{/);
+  assert.doesNotMatch(css, /\.calendly-inline-widget\s*\{[^}]*height:/s);
 });
 
 test("submits activated FormSubmit delivery from the browser before storing the lead", async () => {
