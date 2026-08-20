@@ -16,7 +16,7 @@ export default async function TestimonialsPage() {
         {item.image && <Image className="testimonial-avatar" src={item.image} width={120} height={120} alt={`Фото клієнта ${item.name}`} />}
         <div><strong>{item.name}</strong><span>{item.role}</span></div>
       </div>
-      <blockquote>{item.quote}</blockquote>
+      <blockquote className={item.id === "maryna-koval-2026" ? "testimonial-quote testimonial-quote-compact" : "testimonial-quote"}>{item.quote}</blockquote>
     </article>)}</section>
   </>;
 }
